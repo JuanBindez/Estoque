@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque de Produtos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-4">
+        <h4 class="text-primary mb-4"><i class="fas fa-box-open"></i> Estoque de Produtos</h4>
+        
+        <!-- Link para adicionar produto -->
+        <a href="/add_produto" class="btn btn-success mb-4">
+            <i class="fas fa-plus-circle"></i> Adicionar Produto
+        </a>
+
+        <!-- Listagem dos produtos -->
+        <div class="list-group">
+            {% for produto in produtos %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">Produto: {{ produto[1] }}</h5>
+                        <p class="mb-1">
+                            <strong>ID:</strong> {{ produto[0] }} |
+                            <strong>Preço:</strong> R$ {{ produto[2] }} |
+                            <strong>Código de Barras:</strong> {{ produto[3] }}
+                        </p>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <!-- Botão para atualizar o produto -->
+                        <form action="{{ url_for('update_produto', id=produto[0]) }}" method="GET" class="mr-2">
+                            <button type="submit" class="btn btn-warning text-white">
+                                <i class="fas fa-edit"></i> Atualizar
+                            </button>
+                        </form>
+                        <!-- Botão para apagar o produto -->
+                        <form action="{{ url_for('delete', id=produto[0]) }}" method="POST">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Apagar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap and Font Awesome Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

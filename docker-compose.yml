@@ -1,0 +1,22 @@
+version: '3'
+services:
+  flask_app:
+    build: .
+    ports:
+      - "5000:5000"  # Mapeia a porta 5000 no host para a porta 5000 no container
+    environment:
+      PORT: 5000
+      DB_HOST: ${DB_HOST}  # Usando a variável de ambiente DB_HOST do arquivo .env
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    restart: always
+    volumes:
+      - .:/app
+    command: ["gunicorn", "--bind", ":5000", "--workers", "1", "--threads", "8", "--reload", "main:app"]
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"  # IP do host Docker para Linux
+
+volumes:
+  postgres_data:
+    driver: local
